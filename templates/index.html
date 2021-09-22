@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>Exchange-Currency Bot</title>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<!-- <link rel="stylesheet" href="styles.css"> -->
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/chat.css') }}">
+</head>
+<body align='center' style="background-color: rgb(190, 235, 207);">
+<script type="text/javascript">
+$(document).ready(function() {
+
+	var socket = io.connect('http://127.0.0.1:5000',{ transports: ['websocket'] });
+	var messageNumber = 1
+  
+  console.log("Connected Ready!")
+	
+
+	socket.on('message', function(msg) {
+		$("#messages").append('<li>'+msg+'</li>');
+		$("#messages").animate({scrollTop: $('#messages').prop("scrollHeight")}, 1000);
+		console.log('Received message');
+	});
+	socket.on('mic',function(msg){
+		$('#myMessage').val(msg);
+	});
+	
+  socket.on("connect_error", (err) => {
+  console.log("ERROR LOLOLOY")
+  console.log(`connect_error due to ${err.message}`);
+});
+
+	$('#sendbutton').on('click', function() {
+    console.log("SOCKET===>")
+    console.log(socket)
+		socket.send($('#myMessage').val());
+		$('#myMessage').val('');
+	});
+  $('#micButton').on('click', function() {
+    socket.emit('mic',"send me the voice message")
+	
+	});
+
+
+});
+</script>
+<h1>Currency Exchange Bot</h1>
+<div class="chatwindow">
+	
+<ul id="messages"></ul>
+<input  type="text" id="myMessage">
+<button style="background-color: blue;" id="sendbutton">Send</button>
+<button style="background-color: crimson;"id="micButton">Mic</button>
+</div>
+</body>
+</html>

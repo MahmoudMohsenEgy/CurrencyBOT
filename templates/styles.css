@@ -1,0 +1,25 @@
+ul {
+    text-align: left;
+    border:2px solid rgb(81, 201, 81);
+    border-width: 1px;
+    height: 100px;
+    width: 50%;
+    margin-right: 150px;
+    margin-left: 100px;
+    text-indent: 10px;
+    overflow: auto;
+    max-height: 100px;
+
+}
+li {
+    align-items: center;
+    list-style: none;
+    font-size: 10px;
+    
+}
+.chatwindow {
+    border: 2px dashed black;
+    margin-block-end: 50px;
+    align-content: center;
+    align-tracks: center;
+}

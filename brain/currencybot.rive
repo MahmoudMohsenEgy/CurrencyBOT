@@ -1,0 +1,36 @@
+! version= 2.0
+
+
++ (hello|hi|hola|hey)
+- Hello Human, Do you want to know exchange rate ? {topic=exchange}
++ (bye|good night|see you)
+- See you later Sir.
+
+> topic exchange
++ (yes *|yes)
+- Okay let me know the currency you want to change {topic=firstcurrency}
++ (no *|no)
+- No problem Sir.
+< topic
+
+> topic firstcurrency
++ *
+- <set cur1=<star>> Ok, what is the other currency you want to change to? {topic=secondcurrency}
+< topic
+> topic secondcurrency
++ *
+- <set cur2=<star>> Ok, one final thing what is the amount of <get cur1> to change to <get cur2> {topic=amount}
+< topic
+> topic amount
++ *
+- <set amount=<star>> Ok here you go <call>getExchange <get amount> <get cur1> <get cur2></call> \n
+^ Do you want to make another exchange Sir? {topic=exchange}
+< topic
+
+
+> object getExchange python
+import currencyapi
+s = currencyapi.callAPI(args[0],args[1].upper(),args[2].upper())
+return s
+< object
+
